@@ -32,3 +32,4 @@ build/
 
 frontend/node/
 frontend/target/
+frontend/node_modules/
