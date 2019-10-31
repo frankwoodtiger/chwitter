@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <header:css/>
     <header:js/>
     <title></title>
 </head>
@@ -11,7 +12,7 @@
 <div>
     <jsp:include page="../fragments/header.jsp"/>
 </div>
-<p>This is the home page, ${welcomeMsg}</p>
+<p class="green">This is the home page, ${welcomeMsg}</p>
 <div>
     <jsp:include page="../fragments/footer.jsp"/>
 </div>
