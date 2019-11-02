@@ -12,7 +12,7 @@
 <div>
     <jsp:include page="../fragments/header.jsp"/>
 </div>
-<p class="green">This is the home page, ${welcomeMsg}</p>
+<p>This is the home page, ${welcomeMsg}</p>
 <div>
     <jsp:include page="../fragments/footer.jsp"/>
 </div>

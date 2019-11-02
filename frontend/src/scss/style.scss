@@ -1,3 +1,8 @@
-.green {
-  color: green;
-}
+// Pretty good article about organization of Sass project: https://itnext.io/structuring-your-sass-projects-c8d41fa55ed4
+//  If we use bootstrap sass, instead of bootstrap css, then this is the correct way to load bootstrap instead of 'import bootstrap;'' in entry js
+@import "~bootstrap/scss/bootstrap";
+@import "abstracts/_variables";
+@import "base/_reset";
+@import "components/header";
+@import "components/footer";
+@import "pages/home";
