@@ -21,6 +21,26 @@
     -->
     <packaging>pom</packaging>
 
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <maven.activeProfile>dev</maven.activeProfile>
+                <npm.argument>run start</npm.argument>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <maven.activeProfile>prod</maven.activeProfile>
+                <npm.argument>run build</npm.argument>
+            </properties>
+        </profile>
+    </profiles>
+
     <properties>
         <java.version>1.8</java.version>
     </properties>
