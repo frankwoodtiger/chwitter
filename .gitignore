@@ -29,3 +29,10 @@ build/
 
 ### VS Code ###
 .vscode/
+
+frontend/node/
+frontend/target/
+frontend/node_modules/
+
+backend/src/main/resources/static/css/
+backend/src/main/resources/static/js/

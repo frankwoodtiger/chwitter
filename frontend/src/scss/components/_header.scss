@@ -1,0 +1,14 @@
+$header-min-height: 78px;
+
+.header {
+  position: absolute;
+  min-height: $header-min-height;
+  min-width: 100%;
+  background-color: dimgray;
+  color: white;
+  .app-title {
+    height: $header-min-height;
+    display:flex;
+    align-items: center;
+  }
+}
