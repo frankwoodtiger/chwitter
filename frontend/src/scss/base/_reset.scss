@@ -1,1 +1,6 @@
 // see https://getbootstrap.com/docs/4.3/content/reboot/#approach, no need to reset css
+
+a:link, a:visited {
+  text-decoration: inherit;
+  color: inherit;
+}
