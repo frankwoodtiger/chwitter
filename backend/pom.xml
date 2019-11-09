@@ -96,11 +96,34 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
+
+        <!-- for Spring Security jsp tag -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+        </dependency>
         <!-- added dependencies END -->
     </dependencies>
 
     <build>
         <plugins>
+            <!--
+                During the Maven package phase, the jar archive is enhanced by Spring Boot Maven Plugin and the original
+                jar file (that should haven been built using the standard maven-jar-plugin) is replaced with an enhanced
+                executable jar.
+
+                Hence you have either to issue the spring-boot:repackage goal yourself when building your module:
+                mvn package spring-boot:repackage
+
+                or
+
+                Add repackage goal explicitly within the plugin configuration like below
+
+                Otherwise, you will get this when running the war in command line:
+                no main manifest attribute, in backend/target/backend-0.0.1-SNAPSHOT.war
+
+                See more: https://www.baeldung.com/spring-boot-main-classs
+            -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

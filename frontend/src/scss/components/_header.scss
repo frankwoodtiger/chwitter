@@ -1,14 +1,19 @@
 $header-min-height: 78px;
 
 .header {
-  position: absolute;
   min-height: $header-min-height;
   min-width: 100%;
   background-color: dimgray;
   color: white;
+  display:flex;
+  align-items: center;
   .app-title {
-    height: $header-min-height;
-    display:flex;
-    align-items: center;
+    padding: 0 40px;
+    order: 1
+  }
+  .logout-link {
+    padding: 0 40px;
+    margin-left:auto;
+    order: 2;
   }
 }
