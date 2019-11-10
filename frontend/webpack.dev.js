@@ -3,7 +3,7 @@ const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
     mode: 'development',
-    watch: true,
+    watch: false, // TODO: need to think of a way to not stop the backend build
     /*
         inline-source-map - A SourceMap is added as a DataUrl to the bundle. Help with knowing which line in the
         original source file causing issue while debugging.

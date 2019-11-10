@@ -50,7 +50,7 @@
                             <goal>npm</goal>
                         </goals>
                         <configuration>
-                            <arguments>run build</arguments>
+                            <arguments>${npm.argument}</arguments>
                         </configuration>
                     </execution>
                 </executions>
