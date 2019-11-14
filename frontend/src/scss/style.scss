@@ -1,8 +1,23 @@
-// Pretty good article about organization of Sass project: https://itnext.io/structuring-your-sass-projects-c8d41fa55ed4
-//  If we use bootstrap sass, instead of bootstrap css, then this is the correct way to load bootstrap instead of 'import bootstrap;'' in entry js
+/*
+Pretty good article about organization of Sass project: https://itnext.io/structuring-your-sass-projects-c8d41fa55ed4
+If we use bootstrap sass, instead of bootstrap css, then this is the correct way to load bootstrap instead of 'import bootstrap;'' in entry js
+
+For underscore prefix, if you have _foo.scss, then all of these imports have identical results as long as you don't have any ambiguous filenames
+@import "foo";
+@import "foo.scss";
+@import "_foo";
+@import "_foo.scss";
+See:
+  https://stackoverflow.com/questions/27979693/sass-import-using-leading-underscore
+  https://kolosek.com/sass-import/
+*/
+
 @import "~bootstrap/scss/bootstrap";
-@import "abstracts/_variables";
-@import "base/_reset";
+@import "abstracts/variables";
+@import "base/reset";
 @import "components/header";
 @import "components/footer";
+@import "components/table";
 @import "pages/home";
+@import "pages/registerForm";
+@import "pages/admin";

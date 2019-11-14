@@ -4,7 +4,7 @@
 
 <div class="header">
     <div class="app-title">
-        <h1>Custom Twitter</h1>
+        <h1><a href="/">Custom Twitter</a></h1>
     </div>
 
     <sec:authorize access="isAuthenticated()">

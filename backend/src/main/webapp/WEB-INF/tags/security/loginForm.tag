@@ -19,12 +19,10 @@
         </tr>
         <tr>
             <td colspan="2">
-                <a href="/register">Register as new user</a>
+                <a href="/user/register">Register as new user</a>
             </td>
         </tr>
-        <input type="hidden"                        6
-               name="${_csrf.parameterName}"
-               value="${_csrf.token}"/>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     </table>
     <c:if test="${not empty errorMessage}">
         <div class="alert alert-warning" role="alert">${errorMessage}</div>

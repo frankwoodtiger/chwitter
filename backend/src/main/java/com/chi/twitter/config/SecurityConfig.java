@@ -1,5 +1,6 @@
 package com.chi.twitter.config;
 
+import com.chi.twitter.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -48,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Order(2)
     public static class DefaultSecurityConfig extends WebSecurityConfigurerAdapter {
         @Autowired
-        protected UserDetailsService userDetailsService;
+        protected UserDetailsServiceImpl userDetailsService;
 
         /*
             In Spring, one must provide a password encoder for normal password. Otherwise, you will get:
@@ -71,7 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         Default login page is /login with an HTTP get
                         Default login error url is login/?error
                      */
-                    .loginPage("/login").defaultSuccessUrl("/tweets").permitAll()
+                    .loginPage("/login").defaultSuccessUrl("/login-success").permitAll()
                 .and()
                 // Default logout url is login/?logout but it is better to not use GET parameter
                 .logout()
