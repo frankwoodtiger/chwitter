@@ -3,9 +3,9 @@ INSERT INTO ROLE (NAME, CREATED_DATE) VALUES ('ROLE_ADMIN', CURRENT_TIMESTAMP())
 
 INSERT INTO USER (USERNAME, PASSWORD, EMAIL, FIRST_NAME, MIDDLE_NAME, LAST_NAME, CREATED_DATE)
     VALUES ('admin', '$2y$12$OjJfZO.aB2jmwSZoEfzJme7fPEyxMhrQGKigN2PfNRyo.DfuNXLei', 'test@test.com', 'Test', '', 'Admin', CURRENT_TIMESTAMP()),
-           ('user1', '$2y$12$D787gDEqN0186ZY4NhuIlO2/BDixt9InCov4VXNk1DjZ2yKNSMseq', 'user1@test.com', 'User', '', '1', CURRENT_TIMESTAMP()),
-           ('user2', '$2y$12$Nw4C2IRPr9.XR.qwXDqeFe0K4bbxwqMvSiQsWER24BI6c6zypZZBu', 'user2@test.com', 'User', '', '2', CURRENT_TIMESTAMP()),
-           ('user3', '$2y$12$kOhDB/f1a/2qvY2aQDOGiel6p/5i4t8kNpVUVBZpDeSufSrwiuEGC', 'user3@test.com', 'User', '', '3', CURRENT_TIMESTAMP());
+           ('user1', '$2y$12$j.1zRLOFLpy5vQw/4O5QFehBN3vjbfAzXoJw8XjovfyT.lWaWspk6', 'user1@test.com', 'User', '', '1', CURRENT_TIMESTAMP()),
+           ('user2', '$2y$12$xud.SyzNpeCIslGxos6CIO4OExsUFYHI104xfFC463Ebii63tDUGm', 'user2@test.com', 'User', '', '2', CURRENT_TIMESTAMP()),
+           ('user3', '$2y$12$CUHCR.6C/XPt3CCmsYu.IOEUwPsQRaxEJS3hvBiRnIHW.dz/dF.gK', 'user3@test.com', 'User', '', '3', CURRENT_TIMESTAMP());
 
 INSERT INTO USERS_ROLES (USER_ID, ROLE_ID)
     VALUES (SELECT ID FROM USER WHERE USERNAME = 'admin', SELECT ID FROM ROLE WHERE NAME = 'ROLE_ADMIN'),

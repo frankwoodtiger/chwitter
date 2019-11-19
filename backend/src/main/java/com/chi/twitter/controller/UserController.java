@@ -1,7 +1,7 @@
 package com.chi.twitter.controller;
 
+import com.chi.twitter.entity.User;
 import com.chi.twitter.form.UserRegistrationForm;
-import com.chi.twitter.repository.UserRepository;
 import com.chi.twitter.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/user")
-public class UserController {
+public class UserController extends BaseConroller {
     @Autowired
     UserServiceImpl userServiceImpl;
 
@@ -27,13 +28,15 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String postRegisterUser(@Valid @ModelAttribute("userRegistrationForm") UserRegistrationForm userRegistrationForm,
+    public String postRegisterUser(RedirectAttributes model,
+                                   @Valid @ModelAttribute("userRegistrationForm") UserRegistrationForm userRegistrationForm,
                                    BindingResult bindingResult) {
         userServiceImpl.validate(userRegistrationForm, bindingResult);
         if (bindingResult.hasErrors()) {
             return "userRegistration";
         }
-        userServiceImpl.saveUser(userRegistrationForm);
+        User newUser = userServiceImpl.saveUser(userRegistrationForm);
+        model.addFlashAttribute("successMessage", "Successfully register " + newUser.getUsername());
         return "redirect:/user/register";
     }
 }

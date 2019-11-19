@@ -1,7 +1,7 @@
 package com.chi.twitter.entity;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.Set;
 
 @Entity
 public class User extends AbstractEntity {
@@ -18,12 +18,19 @@ public class User extends AbstractEntity {
 
     private String email;
 
+    /*
+        It’s not a good idea to use the Collection/List for @ManyToMany JPA associations. Better use Set for
+        unique contraint generation on both side of the entity such that each pair in the relationship table
+        (users_roles) is unique.
+
+        See: https://vladmihalcea.com/the-best-way-to-use-the-manytomany-annotation-with-jpa-and-hibernate/
+     */
     @ManyToMany
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    private Collection<Role> roles;
+    private Set<Role> roles;
 
     public String getUsername() {
         return username;
@@ -73,11 +80,11 @@ public class User extends AbstractEntity {
         this.email = email;
     }
 
-    public Collection<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Collection<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 }

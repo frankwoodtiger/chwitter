@@ -42,11 +42,13 @@
             This is an important setup step to be done to work with webpack watch setup.
             This only works when you run backend via Maven - mvn spring-boot:run
             Also, we still need to run 'npm run dev' manually on the frontend folder for webpack to watch file changes
+
+            Also, build might show compile error, make sure the exclude content root of any backend folder in
+            parent twitter module project structure
         -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
 
