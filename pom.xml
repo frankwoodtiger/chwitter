@@ -26,7 +26,7 @@
             <id>dev</id>
             <properties>
                 <maven.activeProfile>dev</maven.activeProfile>
-                <npm.argument>run start</npm.argument>
+                <npm.argument>run dev</npm.argument>
             </properties>
         </profile>
         <profile>

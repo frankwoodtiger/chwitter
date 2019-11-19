@@ -2,14 +2,23 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
-<div class="header">
-    <div class="app-title">
-        <h1>Custom Twitter</h1>
+<div class="header d-flex align-items-center">
+    <div class="app-title p-3 mr-auto">
+        <h1><a href="/">Custom Twitter</a></h1>
     </div>
-
-    <sec:authorize access="isAuthenticated()">
-        <div class="logout-link">
-            <h6><a href="<c:url value="/logout" />">Log Out</a></h6>
-        </div>
-    </sec:authorize>
+    <div class="links d-inline-flex align-items-center">
+        <sec:authorize access="hasRole('ROLE_ADMIN')">
+            <div class="h2-link p-3">
+                <h6><a href="<c:url value="/h2-console" />">H2 DB Console</a></h6>
+            </div>
+            <div class="admin-link p-3">
+                <h6><a href="<c:url value="/admin" />">Admin</a></h6>
+            </div>
+        </sec:authorize>
+        <sec:authorize access="isAuthenticated()">
+            <div class="logout-link p-3">
+                <h6><a href="<c:url value="/logout" />">Log Out</a></h6>
+            </div>
+        </sec:authorize>
+    </div>
 </div>

@@ -1,7 +1,13 @@
-package com.chi.twitter.controllers;
+package com.chi.twitter.controller;
 
+import com.chi.twitter.repository.UserRepository;
+import com.chi.twitter.service.UserServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -10,10 +16,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
-public class HomeController {
+public class HomeController extends BaseConroller {
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    UserServiceImpl userService;
+
     @GetMapping("/")
-    public String home() {
-        return "home";
+    public String home(HttpServletRequest request) {
+        if (userService.isAnonymous()) {
+            return "home";
+        }
+        return "redirect:/tweets";
     }
 
     @GetMapping("/login")
@@ -37,5 +52,22 @@ public class HomeController {
             return "redirect:/";
         }
         return "login";
+    }
+
+    // Handler routing to different pages when logged in
+    @GetMapping("/login-success")
+    public String loginSuccess(SecurityContextHolderAwareRequestWrapper request) {
+        if (request.isUserInRole("ROLE_ADMIN")) {
+            return "redirect:/admin";
+        } else {
+            return "redirect:/tweets";
+        }
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/admin")
+    public String admin(Model model) {
+        model.addAttribute("userList", userRepository.findAll());
+        return "admin";
     }
 }

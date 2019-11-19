@@ -1,0 +1,6 @@
+.base {
+  /*
+      Set min height as 100% of the view port. Need this as a base reference height for fluid layout to work. For example, flex-grow-1 bootstrap class
+   */
+  min-height: 100vh;
+}
