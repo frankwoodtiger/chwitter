@@ -1,0 +1,14 @@
+.tweet {
+  .tweet-msg {
+    position: relative;
+    .tweet-menu {
+      position: absolute;
+      bottom: 13px;
+      right: 15px;
+    }
+  }
+  .tweet-img {
+    border-style: dotted !important;
+    min-height: 180px;
+  }
+ }
