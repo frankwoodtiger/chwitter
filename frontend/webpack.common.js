@@ -6,6 +6,7 @@
  */
 const path = require('path');
 const resourcePath = path.resolve(__dirname, '../backend/src/main/resources/static');
+const webpack = require("webpack");
 
 module.exports = {
     entry: './src/js/index.js',
@@ -13,5 +14,11 @@ module.exports = {
         filename: 'app.js',
         // __dirname tells you the absolute path of the directory containing the currently executing file.
         path: resourcePath + '/js'
-    }
+    },
+    plugins: [
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery"
+        })
+    ]
 };
