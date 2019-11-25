@@ -12,6 +12,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <%--
+        csrf protection is enabled by default in Spring Security for POST request, csrfMetaTags provides the
+        csrf token for post AJAX call. See:
+            https://docs.spring.io/spring-security/site/docs/3.2.x/reference/htmlsingle/html5/#the-csrfmetatags-tag
+            https://docs.spring.io/spring-security/site/docs/3.2.x/reference/htmlsingle/html5/#csrf-include-csrf-token-ajax
+    --%>
+    <sec:csrfMetaTags />
     <%-- only load css when it is not dev profile as we configure webpack to load css in style tag via app.js --%>
     <c:if test="${activeProfile != 'dev'}">
         <header:css/>

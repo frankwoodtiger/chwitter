@@ -1,8 +1,10 @@
 package com.chi.twitter.service;
 
 import com.chi.twitter.entity.User;
+import com.chi.twitter.error.exception.UserNotFoundException;
 import com.chi.twitter.form.UserRegistrationForm;
 import com.chi.twitter.repository.RoleRepository;
+import com.chi.twitter.repository.TweetRepository;
 import com.chi.twitter.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -16,11 +18,16 @@ import java.util.Collections;
 
 @Service
 public class UserServiceImpl {
+    private final static String ANONYMOUS_USER_ID = "anonymous";
+
     @Autowired
     UserRepository userRepository;
 
     @Autowired
     RoleRepository roleRepository;
+
+    @Autowired
+    TweetRepository tweetRepository;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -61,5 +68,20 @@ public class UserServiceImpl {
             See: https://stackoverflow.com/questions/26101738/why-is-the-anonymoususer-authenticated-in-spring-security/26117007
          */
         return SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken;
+    }
+
+    public User getCurrentUser() {
+        if (!isAnonymous()) {
+            String currentUserName = SecurityContextHolder.getContext().getAuthentication().getName();
+            return userRepository.findByUsername(currentUserName)
+                    .orElseThrow(() -> new UserNotFoundException(currentUserName));
+        }
+        return getAnonymousUser();
+    }
+
+    public User getAnonymousUser() {
+        User anonymousUser = new User();
+        anonymousUser.setUsername(ANONYMOUS_USER_ID);
+        return anonymousUser;
     }
 }
