@@ -86,9 +86,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .userDetailsService(userDetailsService).passwordEncoder(passwordEncoder())
                 .and()
                 .inMemoryAuthentication()
-                .withUser("chi").password(passwordEncoder().encode("1234")).roles("USER", "ADMIN")
-                .and()
-                .withUser("terryleong").password(passwordEncoder().encode("1234")).roles("USER");
+                .withUser("in-memory-chi").password(passwordEncoder().encode("1234")).roles("USER", "ADMIN", "IN_MEMORY");
                 /*
                     With Spring Security 5 you can prefix password with id of selected PasswordEncoder. If you want to
                     use plain password, then simply use {noop} prefix, this will delegate password encoder to
