@@ -3,7 +3,7 @@ import '../scss/style.scss';
 // https://stackoverflow.com/questions/52376720/how-to-make-font-awesome-5-work-with-webpack
 import '@fortawesome/fontawesome-free/js/all';
 
-import * as Tweets from './tweets.js';
+import * as Chweets from './chweets.js';
 import * as AjaxUtils from './ajaxUtils';
 
 // some discussion why we need this: https://github.com/webpack/webpack/issues/4258
@@ -14,4 +14,4 @@ window.jQuery = $;
 window.$ = $;
 window.AjaxUtils = AjaxUtils;
 
-Tweets.bindAll();
+Chweets.bindAll();

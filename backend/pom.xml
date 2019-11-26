@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.chi</groupId>
-        <artifactId>twitter</artifactId>
+        <artifactId>chwitter</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>backend</artifactId>
@@ -44,7 +44,7 @@
             Also, we still need to run 'npm run dev' manually on the frontend folder for webpack to watch file changes
 
             Also, build might show compile error, make sure the exclude content root of any backend folder in
-            parent twitter module project structure
+            parent chwitter module project structure
         -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

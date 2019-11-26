@@ -4,7 +4,7 @@
 
 <div class="header d-flex align-items-center">
     <div class="app-title p-3 mr-auto">
-        <h1><a href="/">Custom Twitter</a></h1>
+        <h1><a href="/">Chwitter</a></h1>
     </div>
     <div class="links d-inline-flex align-items-center">
         <sec:authorize access="hasRole('ROLE_ADMIN')">

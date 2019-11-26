@@ -1,0 +1,29 @@
+.chweet {
+  .chweet-msg {
+    position: relative;
+    .new-chweet-msg {
+      width: 100%;
+    }
+    .chweet-menu-arrow {
+      cursor: pointer;
+      position: absolute;
+      bottom: 13px;
+      right: 15px;
+    }
+  }
+  .chweet-img {
+    border-style: dotted !important;
+    min-height: 180px;
+  }
+  .chweet-menu {
+    position: absolute;
+    top: 100%;
+    background-color: white;
+    right: -1px; // account for border 1px
+    .chweet-menu-item {
+      cursor: pointer;
+      width: 100px;
+      text-align: left;
+    }
+  }
+}
