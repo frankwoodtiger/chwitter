@@ -21,6 +21,10 @@ public class Chweet extends AbstractEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "image_id", referencedColumnName = "id")
+    private Image image;
+
     public String getMessage() {
         return message;
     }
@@ -35,5 +39,13 @@ public class Chweet extends AbstractEntity {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
     }
 }

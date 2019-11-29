@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface ChweetRepository extends PagingAndSortingRepository<Chweet, Long> {
-    public List<Chweet> findByUser(User user);
+    public List<Chweet> findByUserOrderByCreatedDateDesc(User user);
 
     /*
         findBy + (the foreign key member of Chweet class with first letter Upper) + underscore +the data member of

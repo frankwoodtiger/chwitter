@@ -1,6 +1,6 @@
 package com.chi.chwitter.error;
 
-import com.chi.chwitter.error.response.ErrorResponse;
+import com.chi.chwitter.error.response.ResponseData;
 import com.chi.chwitter.error.exception.ChweetNotAuthorizedActionException;
 import com.chi.chwitter.error.exception.ChweetNotFoundException;
 import com.chi.chwitter.error.exception.UserNotFoundException;
@@ -19,15 +19,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         ChweetNotFoundException.class,
         UserNotFoundException.class
     })
-    public ResponseEntity<ErrorResponse> handleNotFound(Exception ex, WebRequest request) {
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND.value(), ex.getLocalizedMessage());
-        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    public ResponseEntity<ResponseData> handleNotFound(Exception ex, WebRequest request) {
+        ResponseData responseData = new ResponseData(HttpStatus.NOT_FOUND.value(), ex.getLocalizedMessage());
+        return new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler({ ChweetNotAuthorizedActionException.class })
-    public ResponseEntity<ErrorResponse> handleNotAuthorized(Exception ex, WebRequest request) {
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED.value(), ex.getLocalizedMessage());
-        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<ResponseData> handleNotAuthorized(Exception ex, WebRequest request) {
+        ResponseData responseData = new ResponseData(HttpStatus.UNAUTHORIZED.value(), ex.getLocalizedMessage());
+        return new ResponseEntity<>(responseData, HttpStatus.UNAUTHORIZED);
     }
 
 }

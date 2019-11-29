@@ -1,4 +1,5 @@
 import * as AjaxUtils from "./ajaxUtils.js";
+import {constructCsrfHeader} from "./ajaxUtils";
 
 let bindChweetContextMenu = function () {
     $(document).on("click", ".chweet-menu-arrow", function() {
@@ -9,21 +10,27 @@ let bindChweetContextMenu = function () {
     });
 };
 
+let newTweetSuccessHandler = function ($chweetInput, data) {
+    // only needed to wrap by $ if we need to do animation like hide or fade in
+    let $newChweetDiv = $($.parseHTML(data));
+    $newChweetDiv.hide()
+    $chweetInput.closest(".row").after($newChweetDiv);
+    $newChweetDiv.fadeIn("slow");
+    $chweetInput.val("");
+};
+
 let bindNewChweetOnEnter = function () {
     $(document).on("keypress", ".new-chweet-msg", function(e) {
         if(e.which == 13) {
-            let chweetInput = $(this);
-            AjaxUtils.postWithCsrf("/newChweet",
-                { message: chweetInput.val() },
-                "POST",
-                function(data) {
-                    // only needed to wrap by $ if we need to do animation like hide or fade in
-                    let newChweetDiv = $($.parseHTML(data));
-                    newChweetDiv.hide()
-                    chweetInput.closest(".row").after(newChweetDiv);
-                    newChweetDiv.fadeIn("slow");
-                    chweetInput.val("");
-                });
+            let $chweetInput = $(this);
+            if ($chweetInput !== "") {
+                AjaxUtils.postWithCsrf("/newChweet",
+                    { message: $chweetInput.val() },
+                    "POST",
+                    function(data) {
+                        newTweetSuccessHandler($chweetInput, data)
+                    });
+            }
         }
     });
 };
@@ -42,6 +49,74 @@ let bindDeleteChweet = function () {
                 });
             });
     });
+}
+
+let bindLinkImageToChweet = function () {
+    $(document).on("click", ".chweet .upload-image .fa-camera-retro", function() {
+        $(this).closest(".chweet").find("input[type=file]").trigger("click");
+    });
+
+    $(document).on("change", ".chweet .upload-image input[type=file]", function(e) {
+        if (this.value !== "") {
+            let fileData = $(".chweet .upload-image input[type=file]").prop('files')[0];
+            let fileReader = new FileReader();
+            let $chweet =  $(this).closest(".chweet");
+            fileReader.addEventListener("load", function () {
+                $chweet.find(".preview-image").removeClass("hide")
+                    .append($("<img/>").attr("src", fileReader.result));
+                $chweet.find(".fa-camera-retro").addClass("hide");
+                $chweet.find(".file-name").removeClass("hide").text(fileData.name);
+                $chweet.find(".confirm-image").removeClass("hide");
+                $chweet.find(".clear-image").removeClass("hide");
+            }, false);
+            // https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL
+            fileReader.readAsDataURL(fileData);
+        }
+    });
+
+    $(document).on('click', ".chweet .upload-image .clear-image", function () {
+        resetImageControl($(this));
+    });
+
+    $(document).on('click', ".chweet .upload-image .confirm-image", function () {
+        let formData = new FormData();
+
+        let fileData = $('.chweet .upload-image input[type=file]').prop('files')[0];
+        console.log(fileData);
+        formData.append("image", fileData); // must match @RequestParam name on the controller in this case, image
+
+        let $chweetInput = $(".new-chweet-msg");
+        let tweetMsg = $chweetInput.val();
+        formData.append("message", tweetMsg);
+
+        $.ajax({
+            url: '/newChweet', // point to server-side controller method
+            dataType: 'text', // what to expect back from the server
+            cache: false,
+            contentType: false,
+            headers: AjaxUtils.constructCsrfHeader(),
+            processData: false,
+            data: formData,
+            type: "POST",
+            success: function (data) {
+                newTweetSuccessHandler($chweetInput, data)
+                resetImageControl($chweetInput);
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    });
+
+    let resetImageControl = function ($currentDomElement) {
+        let $chweet =  $currentDomElement.closest(".chweet");
+        $chweet.find("input[type=file]").val("");
+        $chweet.find(".preview-image").addClass("hide").empty();
+        $chweet.find(".fa-camera-retro").removeClass("hide");
+        $chweet.find(".file-name").addClass("hide").val("");
+        $chweet.find(".confirm-image").addClass("hide");
+        $chweet.find(".clear-image").addClass("hide");
+    };
 };
 
 export function bindAll() {
@@ -49,5 +124,6 @@ export function bindAll() {
         bindNewChweetOnEnter();
         bindChweetContextMenu();
         bindDeleteChweet();
+        bindLinkImageToChweet();
     });
 }

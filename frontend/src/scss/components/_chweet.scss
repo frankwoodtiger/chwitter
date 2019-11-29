@@ -12,18 +12,28 @@
     }
   }
   .chweet-img {
+    text-align: center;
     border-style: dotted !important;
     min-height: 180px;
   }
   .chweet-menu {
     position: absolute;
     top: 100%;
-    background-color: white;
+    background: white;
     right: -1px; // account for border 1px
     .chweet-menu-item {
       cursor: pointer;
       width: 100px;
       text-align: left;
+    }
+  }
+  button {
+    width: 85px;
+  }
+  .preview-image {
+    text-align: center;
+    img {
+      max-width:100%;
     }
   }
 }
