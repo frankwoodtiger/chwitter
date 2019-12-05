@@ -5,7 +5,7 @@
 <%@ tag trimDirectiveWhitespaces="true" %>
 <%@attribute name="chweet" required="true" type="com.chi.chwitter.entity.Chweet" %>
 <div class="row">
-    <div class="chweet col-xs-10 col-md-5 p-2 m-2 mx-auto border border-dark">
+    <div class="chweet col-xs-9 col-lg-4 p-2 m-2 mx-auto border border-dark">
         <div class="p-2"><fmt:formatDate value="${chweet.createdDate}" type="date" pattern="MM/dd/yyyy HH:mm:ss"/></div>
         <div class="chweet-msg p-2 m-1 border border-dark">${chweet.message} <i class="chweet-menu-arrow fas fa-chevron-down"></i>
             <input type="hidden" name="chweetId" value="${chweet.id}">

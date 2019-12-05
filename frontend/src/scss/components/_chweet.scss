@@ -15,6 +15,9 @@
     text-align: center;
     border-style: dotted !important;
     min-height: 180px;
+    img {
+      max-width:100%;
+    }
   }
   .chweet-menu {
     position: absolute;
@@ -35,5 +38,8 @@
     img {
       max-width:100%;
     }
+  }
+  input {
+    outline:none;
   }
 }

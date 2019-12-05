@@ -10,6 +10,20 @@ let bindChweetContextMenu = function () {
     });
 };
 
+let validateNewTweetInput = function () {
+    let $chweetInput = $(".new-chweet-msg");
+    if ($chweetInput.val() !== "") {
+        $chweetInput.closest(".chweet-msg")
+            .addClass("border-dark")
+            .removeClass("border-danger");
+        return true;
+    }
+    $chweetInput.closest(".chweet-msg")
+        .addClass("border-danger")
+        .removeClass("border-dark");
+    return false
+};
+
 let newTweetSuccessHandler = function ($chweetInput, data) {
     // only needed to wrap by $ if we need to do animation like hide or fade in
     let $newChweetDiv = $($.parseHTML(data));
@@ -21,9 +35,9 @@ let newTweetSuccessHandler = function ($chweetInput, data) {
 
 let bindNewChweetOnEnter = function () {
     $(document).on("keypress", ".new-chweet-msg", function(e) {
-        if(e.which == 13) {
+        if (e.which === 13) {
             let $chweetInput = $(this);
-            if ($chweetInput !== "") {
+            if (validateNewTweetInput()) {
                 AjaxUtils.postWithCsrf("/newChweet",
                     { message: $chweetInput.val() },
                     "POST",
@@ -56,7 +70,7 @@ let bindLinkImageToChweet = function () {
         $(this).closest(".chweet").find("input[type=file]").trigger("click");
     });
 
-    $(document).on("change", ".chweet .upload-image input[type=file]", function(e) {
+    $(document).on("change", ".chweet .upload-image input[type=file]", function() {
         if (this.value !== "") {
             let fileData = $(".chweet .upload-image input[type=file]").prop('files')[0];
             let fileReader = new FileReader();
@@ -79,33 +93,30 @@ let bindLinkImageToChweet = function () {
     });
 
     $(document).on('click', ".chweet .upload-image .confirm-image", function () {
-        let formData = new FormData();
+        if (validateNewTweetInput()) {
+            let formData = new FormData();
+            let fileData = $('.chweet .upload-image input[type=file]').prop('files')[0];
+            formData.append("image", fileData); // must match @RequestParam name on the controller in this case, image
 
-        let fileData = $('.chweet .upload-image input[type=file]').prop('files')[0];
-        console.log(fileData);
-        formData.append("image", fileData); // must match @RequestParam name on the controller in this case, image
+            let $chweetInput = $(".new-chweet-msg");
+            let tweetMsg = $chweetInput.val();
+            formData.append("message", tweetMsg);
 
-        let $chweetInput = $(".new-chweet-msg");
-        let tweetMsg = $chweetInput.val();
-        formData.append("message", tweetMsg);
-
-        $.ajax({
-            url: '/newChweet', // point to server-side controller method
-            dataType: 'text', // what to expect back from the server
-            cache: false,
-            contentType: false,
-            headers: AjaxUtils.constructCsrfHeader(),
-            processData: false,
-            data: formData,
-            type: "POST",
-            success: function (data) {
-                newTweetSuccessHandler($chweetInput, data)
-                resetImageControl($chweetInput);
-            },
-            error: function (response) {
-                console.log(response);
-            }
-        });
+            $.ajax({
+                url: '/newChweet', // point to server-side controller method
+                dataType: 'text', // what to expect back from the server
+                cache: false,
+                contentType: false,
+                headers: AjaxUtils.constructCsrfHeader(),
+                processData: false,
+                data: formData,
+                type: "POST",
+                success: function (data) {
+                    newTweetSuccessHandler($chweetInput, data)
+                    resetImageControl($chweetInput);
+                }
+            });
+        }
     });
 
     let resetImageControl = function ($currentDomElement) {
