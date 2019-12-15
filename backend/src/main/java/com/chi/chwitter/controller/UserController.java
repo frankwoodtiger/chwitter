@@ -4,22 +4,21 @@ import com.chi.chwitter.service.UserServiceImpl;
 import com.chi.chwitter.entity.User;
 import com.chi.chwitter.form.UserRegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/user")
 public class UserController extends BaseConroller {
     @Autowired
-    UserServiceImpl userServiceImpl;
+    UserServiceImpl userService;
 
     @GetMapping("/register")
     public String showRegisterUser(Model model) {
@@ -31,12 +30,39 @@ public class UserController extends BaseConroller {
     public String postRegisterUser(RedirectAttributes model,
                                    @Valid @ModelAttribute("userRegistrationForm") UserRegistrationForm userRegistrationForm,
                                    BindingResult bindingResult) {
-        userServiceImpl.validate(userRegistrationForm, bindingResult);
+        userService.validate(userRegistrationForm, bindingResult);
         if (bindingResult.hasErrors()) {
             return "userRegistration";
         }
-        User newUser = userServiceImpl.saveUser(userRegistrationForm);
+        User newUser = userService.saveUser(userRegistrationForm);
         model.addFlashAttribute("successMessage", "Successfully register " + newUser.getUsername());
         return "redirect:/user/register";
+    }
+
+    @PreAuthorize("!hasRole('ROLE_ANONYMOUS')")
+    @GetMapping("/followees")
+    public Set<User> followees() {
+        return userService.getCurrentUser().getFollowees();
+    }
+
+    @PreAuthorize("!hasRole('ROLE_ANONYMOUS')")
+    @GetMapping("/followers")
+    public Set<User> follower() {
+        return userService.getCurrentUser().getFollowers();
+    }
+
+    @PreAuthorize("!hasRole('ROLE_ANONYMOUS')")
+    @GetMapping("/users")
+    public String users(@RequestParam String keyword, Model model) {
+        model.addAttribute("potentialUsers", userService.findPotentialFollowersByKeyword(keyword));
+        return "potentialFollowers";
+    }
+
+    @PreAuthorize("!hasRole('ROLE_ANONYMOUS')")
+    @GetMapping("/{userId}/follow")
+    public String follow(@PathVariable Long userId, Model model) {
+        userService.followUserById(userId);
+        model.addAttribute("followers", userService.getFollowersOfCurrentUser());
+        return "followers";
     }
 }

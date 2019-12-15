@@ -1,7 +1,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <div class="row">
-    <div class="chweet col-xs-9 col-lg-4 p-2 m-2 mx-auto border border-dark">
+    <div class="chweet w-100 p-2 mb-2 mx-auto border border-dark">
         <div class="chweet-msg m-1 border border-dark">
             <input type="text" name="new-chweet-msg" class="new-chweet-msg border-0 p-2"  placeholder="What's up" />
         </div>

@@ -18,3 +18,22 @@
 .pointer {
   cursor:pointer;
 }
+
+/* bootstrap only has flex-grow-0 and flex-grow-1 */
+.flex-grow-2 {
+  flex-grow: 2 !important;
+}
+
+/*
+  Each flex item has a flex-basis which is sort of like its initial size. Then from there, any remaining free space is distributed proportionally (based
+  on flex-grow) among the items. With auto, that basis is the contents size (or defined size with width, etc.). As a result, items with bigger text within
+  are being given more space overall in your example.
+
+  If you want your elements to be completely even, you can set flex-basis: 0. This will set the flex basis to 0 and then any remaining space (which will be
+  all space since all basises are 0) will be proportionally distributed based on flex-grow.
+
+  https://stackoverflow.com/questions/25066214/flexbox-not-giving-equal-width-to-elements
+ */
+.flex-basis-0 {
+  flex-basis: 0;
+}

@@ -13,8 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-
 @Controller
 @PreAuthorize("!hasRole('ROLE_ANONYMOUS')")
 public class ChweetController extends BaseConroller {
@@ -33,12 +31,12 @@ public class ChweetController extends BaseConroller {
     @GetMapping("/chweets")
     public String chweets(Model model) {
         model.addAttribute("chweets", chweetService.findChweetsOfCurrentUser(true));
+        model.addAttribute("followers", userService.getFollowersOfCurrentUser());
+        model.addAttribute("followees", userService.getFolloweesOfCurrentUser());
         return "chweets";
     }
 
     /*
-        We need to use HttpServletRequest instead of @RequestParam String message if we are passing MultipartFile for
-        file upload. Might have another cleaner way.
         See: https://stackoverflow.com/questions/38645862/spring-mvc-4-ajax-upload-multipartfile-with-extra-parameters
      */
     @PostMapping("/newChweet")

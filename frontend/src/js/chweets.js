@@ -1,5 +1,4 @@
 import * as AjaxUtils from "./ajaxUtils.js";
-import {constructCsrfHeader} from "./ajaxUtils";
 
 let bindChweetContextMenu = function () {
     $(document).on("click", ".chweet-menu-arrow", function() {
@@ -38,7 +37,7 @@ let bindNewChweetOnEnter = function () {
         if (e.which === 13) {
             let $chweetInput = $(this);
             if (validateNewTweetInput()) {
-                AjaxUtils.postWithCsrf("/newChweet",
+                AjaxUtils.ajaxWithCsrf("/newChweet",
                     { message: $chweetInput.val() },
                     "POST",
                     function(data) {
@@ -53,7 +52,7 @@ let bindDeleteChweet = function () {
     $(document).on("click", ".chweet .delete", function() {
         let chweetRow = $(this).closest(".row");
         let chweetId = $(this).closest(".chweet").find("input[name=chweetId]").val();
-        AjaxUtils.postWithCsrf(
+        AjaxUtils.ajaxWithCsrf(
             "/chweets/" + chweetId,
             "",
             "DELETE",
