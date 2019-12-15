@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl {
     private final static String ANONYMOUS_USER_ID = "anonymous";
+    private final static String ROLE_USER_KEY = "ROLE_USER";
 
     @Autowired
     UserRepository userRepository;
@@ -108,7 +109,8 @@ public class UserServiceImpl {
     }
 
     public Set<PotentialFollower> findPotentialFollowersByKeyword(String keyword) {
-        return userRepository.findPotentialFollowersByKeyword(getCurrentUser(), keyword);
+        return userRepository.findPotentialFollowersByKeyword(
+                getCurrentUser(), roleRepository.findByName(ROLE_USER_KEY), keyword);
     }
 
     @Transactional

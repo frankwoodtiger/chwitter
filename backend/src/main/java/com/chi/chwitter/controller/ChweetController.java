@@ -33,6 +33,16 @@ public class ChweetController extends BaseConroller {
         model.addAttribute("chweets", chweetService.findChweetsOfCurrentUser(true));
         model.addAttribute("followers", userService.getFollowersOfCurrentUser());
         model.addAttribute("followees", userService.getFolloweesOfCurrentUser());
+        model.addAttribute("showEditChweet", true);
+        return "chweets";
+    }
+
+    @GetMapping("/{username}/chweets")
+    public String chweets(Model model, @PathVariable String username) {
+        model.addAttribute("chweets", chweetService.findChweetsByUsername(username, true));
+        model.addAttribute("followers", userService.getFollowersOfCurrentUser());
+        model.addAttribute("followees", userService.getFolloweesOfCurrentUser());
+        model.addAttribute("showEditChweet", false);
         return "chweets";
     }
 
@@ -49,6 +59,7 @@ public class ChweetController extends BaseConroller {
             savedChweet = imageService.linkNewImage(image, savedChweet);
         }
         model.addAttribute("chweet", savedChweet);
+        model.addAttribute("showEditChweet", true);
         return "chweet";
     }
 

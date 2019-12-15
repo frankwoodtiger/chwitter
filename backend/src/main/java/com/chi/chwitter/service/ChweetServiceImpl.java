@@ -3,17 +3,23 @@ package com.chi.chwitter.service;
 import com.chi.chwitter.entity.Chweet;
 import com.chi.chwitter.entity.User;
 import com.chi.chwitter.error.exception.ChweetNotAuthorizedActionException;
+import com.chi.chwitter.error.exception.UserNotFoundException;
 import com.chi.chwitter.repository.ChweetRepository;
+import com.chi.chwitter.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ChweetServiceImpl {
     @Autowired
     private ChweetRepository chweetRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private UserServiceImpl userService;
@@ -27,9 +33,8 @@ public class ChweetServiceImpl {
         }
     }
 
-    public List<Chweet> findChweetsOfCurrentUser(boolean loadImage) {
-        final User currentUser = userService.getCurrentUser();
-        List<Chweet> chweets = chweetRepository.findByUserOrderByCreatedDateDesc(currentUser);
+    public List<Chweet> findChweetsOfUser(User user, boolean loadImage) {
+        List<Chweet> chweets = chweetRepository.findByUserOrderByCreatedDateDesc(user);
         if (loadImage) {
             chweets.stream().filter(chweet -> chweet.getImage() != null && chweet.getImage().getData() != null)
                     .map(Chweet::getImage)
@@ -42,5 +47,18 @@ public class ChweetServiceImpl {
                     });
         }
         return chweets;
+    }
+
+    public List<Chweet> findChweetsOfCurrentUser(boolean loadImage) {
+        return findChweetsOfUser(userService.getCurrentUser(), loadImage);
+    }
+
+    public List<Chweet> findChweetsByUsername(String username, boolean loadImage) {
+        Optional<User> user = userRepository.findByUsername(username);
+        if (user.isPresent()) {
+            return findChweetsOfUser(user.get(), loadImage);
+        } else {
+            throw new UserNotFoundException(username);
+        }
     }
 }

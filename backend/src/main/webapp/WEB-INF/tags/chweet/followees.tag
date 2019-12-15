@@ -7,7 +7,7 @@
         <c:if test="${not empty followees}">
             <c:forEach var="followee" items="${followees}">
                 <div class="d-flex p-2 m-2 align-items-center">
-                    <div>${followee.username}</div>
+                    <div><a href="/${followee.username}/chweets">${followee.username}</a></div>
                 </div>
             </c:forEach>
         </c:if>
