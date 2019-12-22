@@ -66,9 +66,6 @@ public class ChweetController extends BaseConroller {
     @DeleteMapping("/chweets/{id}")
     @ResponseBody // need this for void: https://stackoverflow.com/questions/12837907/what-to-return-if-spring-mvc-controller-method-doesnt-return-value
     public void deleteChweet(@PathVariable long id) {
-        Chweet chweet = chweetRepository.findById(id)
-                .orElseThrow(() -> new ChweetNotFoundException(id));
-        chweetService.validateChweetEditableByCurrentUser(chweet);
-        chweetRepository.deleteById(id);
+        chweetService.deleteChweetById(id);
     }
 }

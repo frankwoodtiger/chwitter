@@ -3,11 +3,13 @@ package com.chi.chwitter.service;
 import com.chi.chwitter.entity.Chweet;
 import com.chi.chwitter.entity.User;
 import com.chi.chwitter.error.exception.ChweetNotAuthorizedActionException;
+import com.chi.chwitter.error.exception.ChweetNotFoundException;
 import com.chi.chwitter.error.exception.UserNotFoundException;
 import com.chi.chwitter.repository.ChweetRepository;
 import com.chi.chwitter.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -60,5 +62,13 @@ public class ChweetServiceImpl {
         } else {
             throw new UserNotFoundException(username);
         }
+    }
+
+    @Transactional
+    public void deleteChweetById(long id) {
+        Chweet chweet = chweetRepository.findById(id)
+                .orElseThrow(() -> new ChweetNotFoundException(id));
+        validateChweetEditableByCurrentUser(chweet);
+        chweetRepository.deleteById(id);
     }
 }
