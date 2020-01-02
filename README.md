@@ -1,2 +1,2 @@
-# custom-twitter
-A custom twitter application that demonstrates some web application development techniques
+# chwitter
+A twitter-like application that demonstrates some web application development techniques

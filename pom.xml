@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.chi</groupId>
-    <artifactId>twitter</artifactId>
+    <artifactId>chwitter</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>twitter</name>
-    <description>Custom Twitter</description>
+    <name>chwitter</name>
+    <description>Chwitter</description>
 
     <!--
         To enable use of Maven module, parent pom must have packaging as pom. Parent pom should act just as a

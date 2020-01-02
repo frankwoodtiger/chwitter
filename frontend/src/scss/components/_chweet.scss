@@ -1,0 +1,45 @@
+.chweet {
+  .chweet-msg {
+    position: relative;
+    .new-chweet-msg {
+      width: 100%;
+    }
+    .chweet-menu-arrow {
+      cursor: pointer;
+      position: absolute;
+      bottom: 13px;
+      right: 15px;
+    }
+  }
+  .chweet-img {
+    text-align: center;
+    border-style: dotted !important;
+    min-height: 180px;
+    img {
+      max-width:100%;
+    }
+  }
+  .chweet-menu {
+    position: absolute;
+    top: 100%;
+    background: white;
+    right: -1px; // account for border 1px
+    .chweet-menu-item {
+      cursor: pointer;
+      width: 100px;
+      text-align: left;
+    }
+  }
+  button {
+    width: 85px;
+  }
+  .preview-image {
+    text-align: center;
+    img {
+      max-width:100%;
+    }
+  }
+  input {
+    outline:none;
+  }
+}

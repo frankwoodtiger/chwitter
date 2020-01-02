@@ -3,8 +3,9 @@ import '../scss/style.scss';
 // https://stackoverflow.com/questions/52376720/how-to-make-font-awesome-5-work-with-webpack
 import '@fortawesome/fontawesome-free/js/all';
 
-import * as Tweets from './tweets.js';
 import * as AjaxUtils from './ajaxUtils';
+import * as Chweets from './chweets.js';
+import * as Users from './users.js';
 
 // some discussion why we need this: https://github.com/webpack/webpack/issues/4258
 // might be more clear: https://stackoverflow.com/questions/29080148/expose-jquery-to-real-window-object-with-webpack/29083197#29083197
@@ -14,4 +15,5 @@ window.jQuery = $;
 window.$ = $;
 window.AjaxUtils = AjaxUtils;
 
-Tweets.bindAll();
+Chweets.bindAll();
+Users.bindAll();
