@@ -1,5 +1,7 @@
 package com.chi.chwitter.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
@@ -19,6 +21,7 @@ public class Chweet extends AbstractEntity {
         generated like this: <field_name>_<id_column_name>
      */
     @JoinColumn(name = "user_id")
+    @JsonIgnore // avoid proxy error when serializing JSON
     private User user;
 
     @OneToOne(cascade = CascadeType.ALL)
