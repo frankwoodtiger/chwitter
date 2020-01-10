@@ -1,5 +1,22 @@
 import * as AjaxUtils from "./ajaxUtils.js";
 
+let bindShowMoreChweets = function() {
+    $(document).on("click", "span.show-more", function() {
+        let pagingURL = $("#paging-url").val();
+        let chweetCountOnPage = $(".row .chweet").length - 1; // minus the new chweet row
+        AjaxUtils.ajaxWithCsrf(pagingURL,
+            { chweetCountOnPage: chweetCountOnPage },
+            "GET",
+            function(data) {
+                if (data.trim() !== "") {
+                    $(".chweets").append(data.trim());
+                } else {
+                    $(".show-more").hide();
+                }
+            });
+    });
+}
+
 let bindChweetContextMenu = function () {
     $(document).on("click", ".chweet-menu-arrow", function() {
         // Since toggleClass depends on either the class's presence or the value of the state argument,
@@ -131,6 +148,7 @@ let bindLinkImageToChweet = function () {
 
 export function bindAll() {
     $(function () {
+        bindShowMoreChweets();
         bindNewChweetOnEnter();
         bindChweetContextMenu();
         bindDeleteChweet();
