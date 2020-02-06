@@ -23,8 +23,11 @@ let bindFollow = function () {
     $(document).on("click", "button.follow-user", function () {
         let userId = $(this).data("userId");
         AjaxUtils.ajaxWithCsrf("/user/" + userId+ "/follow", {},"GET",
-            function (data) {
+            data => {
                 $(".followers").html(data);
+                // perfect place to use arrow function here, 'this' is in the context of the parent caller such that
+                // 'this' is button.follow-user
+                $(this).parent().fadeOut("slow", function() { $(this).remove() });
             });
     });
 }

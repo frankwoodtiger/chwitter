@@ -76,7 +76,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // Default logout url is login/?logout but it is better to not use GET parameter
                 .logout()
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                    .logoutSuccessUrl("/");
+                    .logoutSuccessUrl("/")
+                    .invalidateHttpSession(true);
+                // session is invalidate by default, see invalidateHttpSession method documentation, but can be explicitly called
+                // for more logout option, see: https://www.baeldung.com/spring-security-logout
         }
 
         @Override
