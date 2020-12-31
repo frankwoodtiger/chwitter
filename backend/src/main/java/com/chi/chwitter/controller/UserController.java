@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Set;
 
@@ -35,8 +36,21 @@ public class UserController extends BaseConroller {
             return "userRegistration";
         }
         User newUser = userService.saveUser(userRegistrationForm);
-        model.addFlashAttribute("successMessage", "Successfully register " + newUser.getUsername());
+        model.addFlashAttribute("successMessage",
+                "Successfully register " + newUser.getUsername() + ". Please check your email to activate your account.");
         return "redirect:/user/register";
+    }
+
+    @GetMapping("/confirm")
+    public String confirm(Model model, @RequestParam("token") String confirmationToken) {
+        model.addAttribute("title", "Account Confirmation");
+        userService.findUserByRegistrationConfirmationToken(confirmationToken).ifPresentOrElse(user -> {
+            user.setActivated(true);
+            userService.save(user);
+            model.addAttribute("successMessage",
+                    "Welcome " + user.getUsername() + "! Your account is successfully activated.");
+        }, () -> model.addAttribute("errorMessage", "Invalid Token."));
+        return "emptyPageWithMessage";
     }
 
     @PreAuthorize("!hasRole('ROLE_ANONYMOUS')")

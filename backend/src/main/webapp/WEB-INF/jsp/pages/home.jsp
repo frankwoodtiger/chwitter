@@ -6,8 +6,8 @@
 
 <template:page title="Login" pageCssClass="home">
     <sec:authorize access="!isAuthenticated()">
-    <div class="login-form-container flex-grow-1 d-flex justify-content-center align-items-center">
-        <tags-security:loginForm/>
-    </div>
+        <div class="login-form-container flex-grow-1 d-flex justify-content-center align-items-center">
+            <tags-security:loginForm/>
+        </div>
     </sec:authorize>
 </template:page>
