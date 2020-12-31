@@ -1,14 +1,14 @@
 INSERT INTO ROLE (NAME, CREATED_DATE) VALUES ('ROLE_USER', CURRENT_TIMESTAMP());
 INSERT INTO ROLE (NAME, CREATED_DATE) VALUES ('ROLE_ADMIN', CURRENT_TIMESTAMP());
 
-INSERT INTO USER (USERNAME, PASSWORD, EMAIL, FIRST_NAME, MIDDLE_NAME, LAST_NAME, CREATED_DATE)
+INSERT INTO USER (USERNAME, PASSWORD, EMAIL, FIRST_NAME, MIDDLE_NAME, LAST_NAME, IS_ACTIVATED, CREATED_DATE)
     VALUES
-        ('admin', '$2y$12$OjJfZO.aB2jmwSZoEfzJme7fPEyxMhrQGKigN2PfNRyo.DfuNXLei', 'test@test.com', 'Test', '', 'Admin', CURRENT_TIMESTAMP()),
-        ('chi', '$2y$12$OjJfZO.aB2jmwSZoEfzJme7fPEyxMhrQGKigN2PfNRyo.DfuNXLei', 'test@test.com', 'Chi', 'Heng', 'Lee', CURRENT_TIMESTAMP()),
-        ('terryleong', '$2y$12$OjJfZO.aB2jmwSZoEfzJme7fPEyxMhrQGKigN2PfNRyo.DfuNXLei', 'test@test.com', 'Terry', '', 'Leong', CURRENT_TIMESTAMP()),
-        ('user1', '$2y$12$j.1zRLOFLpy5vQw/4O5QFehBN3vjbfAzXoJw8XjovfyT.lWaWspk6', 'user1@test.com', 'User', '', '1', CURRENT_TIMESTAMP()),
-        ('user2', '$2y$12$xud.SyzNpeCIslGxos6CIO4OExsUFYHI104xfFC463Ebii63tDUGm', 'user2@test.com', 'User', '', '2', CURRENT_TIMESTAMP()),
-        ('user3', '$2y$12$CUHCR.6C/XPt3CCmsYu.IOEUwPsQRaxEJS3hvBiRnIHW.dz/dF.gK', 'user3@test.com', 'User', '', '3', CURRENT_TIMESTAMP());
+        ('admin', '$2y$12$OjJfZO.aB2jmwSZoEfzJme7fPEyxMhrQGKigN2PfNRyo.DfuNXLei', 'test@test.com', 'Test', '', 'Admin', true, CURRENT_TIMESTAMP()),
+        ('chi', '$2y$12$OjJfZO.aB2jmwSZoEfzJme7fPEyxMhrQGKigN2PfNRyo.DfuNXLei', 'test@test.com', 'Chi', 'Heng', 'Lee', true, CURRENT_TIMESTAMP()),
+        ('terryleong', '$2y$12$OjJfZO.aB2jmwSZoEfzJme7fPEyxMhrQGKigN2PfNRyo.DfuNXLei', 'test@test.com', 'Terry', '', 'Leong', true, CURRENT_TIMESTAMP()),
+        ('user1', '$2y$12$j.1zRLOFLpy5vQw/4O5QFehBN3vjbfAzXoJw8XjovfyT.lWaWspk6', 'user1@test.com', 'User', '', '1', true, CURRENT_TIMESTAMP()),
+        ('user2', '$2y$12$xud.SyzNpeCIslGxos6CIO4OExsUFYHI104xfFC463Ebii63tDUGm', 'user2@test.com', 'User', '', '2', true, CURRENT_TIMESTAMP()),
+        ('user3', '$2y$12$CUHCR.6C/XPt3CCmsYu.IOEUwPsQRaxEJS3hvBiRnIHW.dz/dF.gK', 'user3@test.com', 'User', '', '3', true, CURRENT_TIMESTAMP());
 
 INSERT INTO USERS_ROLES (USER_ID, ROLE_ID)
     VALUES

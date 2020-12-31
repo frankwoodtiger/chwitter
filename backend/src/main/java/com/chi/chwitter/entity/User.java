@@ -20,6 +20,9 @@ public class User extends AbstractEntity {
 
     private String email;
 
+    @Column(columnDefinition = "boolean default false")
+    private boolean isActivated;
+
     /*
         It’s not a good idea to use the Collection/List for @ManyToMany JPA associations. Better use Set for
         unique contraint generation on both side of the entity such that each pair in the relationship table
@@ -95,6 +98,14 @@ public class User extends AbstractEntity {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean isActivated() {
+        return isActivated;
+    }
+
+    public void setActivated(boolean activated) {
+        isActivated = activated;
     }
 
     public Set<Role> getRoles() {

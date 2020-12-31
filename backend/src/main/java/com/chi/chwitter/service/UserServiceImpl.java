@@ -1,15 +1,18 @@
 package com.chi.chwitter.service;
 
+import com.chi.chwitter.entity.RegistrationConfirmationToken;
 import com.chi.chwitter.entity.User;
 import com.chi.chwitter.error.exception.UserNotFoundException;
 import com.chi.chwitter.form.UserRegistrationForm;
 import com.chi.chwitter.mapper.UserDTO;
 import com.chi.chwitter.mapper.UserMapper;
 import com.chi.chwitter.projection.PotentialFollower;
+import com.chi.chwitter.repository.RegistrationConfirmationTokenRepository;
 import com.chi.chwitter.repository.RoleRepository;
 import com.chi.chwitter.repository.ChweetRepository;
 import com.chi.chwitter.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -43,12 +46,18 @@ public class UserServiceImpl {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    @Autowired
+    RegistrationConfirmationTokenRepository registrationConfirmationTokenRepository;
+
+    @Autowired
+    EmailServiceImpl emailService;
+
     public void validate(UserRegistrationForm userForm, BindingResult bindingResult) {
         if (!StringUtils.isEmpty(userForm.getPassword()) && !userForm.getPassword().equals(userForm.getRetypePassword())) {
             bindingResult.rejectValue("retypePassword", "" ,
                     "Password is not the same as the retyped password.");
         }
-        if (!userRepository.findByUsername(userForm.getUsername()).isPresent()) {
+        if (userRepository.findByUsername(userForm.getUsername()).isPresent()) {
             bindingResult.rejectValue("username", "" ,
                     "Username already exists. Please use another username.");
         }
@@ -66,9 +75,23 @@ public class UserServiceImpl {
         return newUser;
     }
 
+    public User save(User user) {
+        return userRepository.save(user);
+    }
+
     public User saveUser(UserRegistrationForm userForm) {
         User newUser = userRegistrationFormToUser(userForm);
+        RegistrationConfirmationToken confirmationToken = new RegistrationConfirmationToken(newUser);
+        RegistrationConfirmationToken token = registrationConfirmationTokenRepository.save(confirmationToken);
+        SimpleMailMessage mailMessage = emailService.getRegistrationMailMessage(token);
+        emailService.sendEmail(mailMessage);
+        System.out.println("Email Sent: " + mailMessage.getText());
         return userRepository.save(newUser);
+    }
+
+    public Optional<User> findUserByRegistrationConfirmationToken(String token) {
+        return registrationConfirmationTokenRepository.findByConfirmationToken(token)
+                .stream().map(RegistrationConfirmationToken::getUser).findAny();
     }
 
     public boolean isAnonymous() {
