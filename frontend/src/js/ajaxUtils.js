@@ -7,12 +7,13 @@ export function constructCsrfHeader() {
     return csrfHeader;
 }
 
-export function ajaxWithCsrf(url, data, method, successCallback) {
+export function ajaxWithCsrf(url, data, method, successCallback, errorCallback) {
     $.ajax({
         url: url,
         headers: constructCsrfHeader(),
         method: method,
         data: data,
-        success: successCallback
+        success: successCallback,
+        error: errorCallback
     });
 }

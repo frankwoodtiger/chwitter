@@ -2,4 +2,13 @@
 .home {
   .login-form-container {
   }
+  #refresh-username {
+    width: 155px;
+  }
+  .confirm-registration-form {
+    position: absolute;
+    #confirm-registration-msg {
+      margin-top: 10px;
+    }
+  }
 }

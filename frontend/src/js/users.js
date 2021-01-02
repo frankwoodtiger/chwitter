@@ -32,9 +32,39 @@ let bindFollow = function () {
     });
 }
 
+let bindResendRegistrationConfirmation = function () {
+    let toggleRegistrationConfirmation = function () {
+        $(".confirm-registration-form").toggleClass("hide");
+        $("#login-msg").remove();
+        $("a#confirm-registration").closest("td").find(".fa-caret-up").toggleClass("hide");
+        $("a#confirm-registration").closest("td").find(".fa-caret-down").toggleClass("hide");
+    };
+    $(document).on("click", "a#confirm-registration", function (e) {
+        e.preventDefault();
+        toggleRegistrationConfirmation();
+    });
+    $(document).on("click", "input#confirm-registration-submit", function () {
+        AjaxUtils.ajaxWithCsrf("/user/refreshRegistrationToken", {
+            username: $("#refresh-username").val()
+        },
+        "POST",
+        data => {
+            toggleRegistrationConfirmation();
+            $("#confirm-registration-msg").addClass("hide");
+        },
+        data => {
+            $("#confirm-registration-msg")
+                .addClass("alert alert-warning")
+                .removeClass("hide")
+                .text(data.responseJSON.message);
+        });
+    });
+}
+
 export function bindAll() {
     $(function () {
         bindSearchPotentialFollowers();
         bindFollow();
+        bindResendRegistrationConfirmation();
     });
 }
