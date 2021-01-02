@@ -34,6 +34,9 @@
         <tr><td colspan="2"><input type="submit" value="Register User" /></td></tr>
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     </table>
+    <c:if test="${not empty errorMessage}">
+        <div class="alert alert-warning mt-1" role="alert">${errorMessage}</div>
+    </c:if>
     <c:if test="${not empty successMessage}">
         <div class="alert alert-success mt-1" role="alert">${successMessage}</div>
     </c:if>

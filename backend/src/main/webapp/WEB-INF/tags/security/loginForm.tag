@@ -4,27 +4,21 @@
 <c:url value="/login" var="loginUrl"/>
 <form action="${loginUrl}" method="post">
     <table>
-        <tr>
-            <td>User ID:</td>
-            <td><input type="text" id="username" name="username" /></td>
-        </tr>
-        <tr>
-            <td>Password:</td>
-            <td><input type="password" id="password" name="password" /></td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <input type="submit" value="Log in" />
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <a href="/user/register">Register as new user</a>
-            </td>
-        </tr>
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        <tbody>
+            <tr>
+                <td>User ID:</td>
+                <td><input type="text" id="username" name="username" /></td>
+            </tr>
+            <tr>
+                <td>Password:</td>
+                <td><input type="password" id="password" name="password" /></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="Log in" />
+                </td>
+            </tr>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        </tbody>
     </table>
-    <c:if test="${not empty errorMessage}">
-        <div class="alert alert-warning" role="alert">${errorMessage}</div>
-    </c:if>
 </form>

@@ -12,6 +12,7 @@ import com.chi.chwitter.repository.RoleRepository;
 import com.chi.chwitter.repository.ChweetRepository;
 import com.chi.chwitter.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -79,19 +80,42 @@ public class UserServiceImpl {
         return userRepository.save(user);
     }
 
+    /**
+     * Need to annotate with transactional as we don't want to save the user if we cannot notify the user
+     * say the email is failing. If that happens, it should rollback the save operation earlier.
+     *
+     * @param userForm
+     * @return the newly created user
+     * @throws MailException
+     */
+    @Transactional
     public User saveUser(UserRegistrationForm userForm) {
         User newUser = userRegistrationFormToUser(userForm);
         RegistrationConfirmationToken confirmationToken = new RegistrationConfirmationToken(newUser);
         RegistrationConfirmationToken token = registrationConfirmationTokenRepository.save(confirmationToken);
         SimpleMailMessage mailMessage = emailService.getRegistrationMailMessage(token);
         emailService.sendEmail(mailMessage);
-        System.out.println("Email Sent: " + mailMessage.getText());
         return userRepository.save(newUser);
     }
 
-    public Optional<User> findUserByRegistrationConfirmationToken(String token) {
-        return registrationConfirmationTokenRepository.findByConfirmationToken(token)
-                .stream().map(RegistrationConfirmationToken::getUser).findAny();
+    /**
+     * @param token
+     * @throws MailException
+     */
+    @Transactional
+    public void refreshToken(RegistrationConfirmationToken token) {
+        token.setExpiryDate();
+        registrationConfirmationTokenRepository.save(token);
+        SimpleMailMessage mailMessage = emailService.getRegistrationMailMessage(token);
+        emailService.sendEmail(mailMessage);
+    }
+
+    public Optional<RegistrationConfirmationToken> findRegistrationTokenByToken(String token) {
+        return registrationConfirmationTokenRepository.findByToken(token);
+    }
+
+    public Optional<RegistrationConfirmationToken> findRegistrationTokenByUsername(String username) {
+        return registrationConfirmationTokenRepository.findByUser_Username(username);
     }
 
     public boolean isAnonymous() {

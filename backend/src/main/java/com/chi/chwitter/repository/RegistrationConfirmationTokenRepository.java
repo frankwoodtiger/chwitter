@@ -8,5 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface RegistrationConfirmationTokenRepository extends JpaRepository<RegistrationConfirmationToken, Long> {
-    Optional<RegistrationConfirmationToken> findByConfirmationToken(String toekn);
+    Optional<RegistrationConfirmationToken> findByToken(String token);
+    Optional<RegistrationConfirmationToken> findByUser_Username(String username);
 }

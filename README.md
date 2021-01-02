@@ -9,4 +9,19 @@ uses frontend-maven-plugin to execute NPM which kicks Webpack to bundle all the 
 all CSS and JavaScript resources in PROD environment. Next, Webpack will put those resources into the
 directory compatible to Spring Boot convention. It then follows by the standard backend build.
 
+The minimum Java version for this project is Java 11. To build the project, go the `/chwitter` and run:
+```
+mvn clean install
+```
+
+To run the application, go to `chwitter/backend/` and run:
+```
+mvn spring-boot:run
+```
+
+To watch for frontend changes and reload immediately, go to `chwitter/frontend/` and run:
+```
+npm run watch
+```
+
 For demonstration, I deployed the application to Heroku: https://chi-witter.herokuapp.com/
