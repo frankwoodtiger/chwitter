@@ -12,6 +12,44 @@
     <!-- only works with WAR if jsp involved -->
     <packaging>war</packaging>
 
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <build>
+                <plugins>
+                    <!--
+                        this is for development smtp server, maybe it makes more sense to do it via Spring boot post
+                        init hook with DEV profile instead of Maven. TODO: use Spring boot instead of Maven
+                     -->
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>3.0.0</version>
+                        <executions>
+                            <execution>
+                                <id>start-dev-fake-smtp-win</id>
+                                <phase>test-compile</phase>
+                                <configuration>
+                                    <!--
+                                        Need to put it in separate build.xml as depends attribute is not supported.
+                                        See https://stackoverflow.com/questions/25156226/how-to-execute-multiple-ant-targets-in-maven
+                                    -->
+                                    <target>
+                                        <ant antfile="build.xml">
+                                            <target name="run.smtp"/>
+                                        </ant>
+                                    </target>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>11</java.version>
