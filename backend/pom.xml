@@ -117,10 +117,45 @@
             <artifactId>spring-boot-starter-mail</artifactId>
             <version>2.2.5.RELEASE</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.maven.shared</groupId>
+            <artifactId>maven-invoker</artifactId>
+            <version>3.0.1</version>
+        </dependency>
         <!-- added dependencies END -->
     </dependencies>
 
     <build>
+        <pluginManagement>
+            <!-- declare this in pluginManagement so that it is only execute via explicit invocation. -->
+            <plugins>
+                <!-- this is for development smtp server and is invoked via DevSmtpServerStartupRunner. -->
+                <plugin>
+                    <artifactId>maven-antrun-plugin</artifactId>
+                    <version>3.0.0</version>
+                    <executions>
+                        <execution>
+                            <id>start-dev-fake-smtp-win</id>
+                            <configuration>
+                                <!--
+                                    Need to put it in separate build.xml as depends attribute is not supported.
+                                    See https://stackoverflow.com/questions/25156226/how-to-execute-multiple-ant-targets-in-maven
+                                -->
+                                <target>
+                                    <ant antfile="build.xml">
+                                        <target name="run.smtp"/>
+                                    </ant>
+                                </target>
+                            </configuration>
+                            <goals>
+                                <goal>run</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
             <!--
                 During the Maven package phase, the jar archive is enhanced by Spring Boot Maven Plugin and the original
