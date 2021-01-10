@@ -1,8 +1,10 @@
-<project basedir=".">
+<project basedir="." xmlns:if="ant:if">
     <target name="is.smtp.running.target">
         <condition property="is.smtp.running">
             <socket server="localhost" port="1080"/>
         </condition>
+        <!-- use of if:set, need >= ant v1.9.1, see usage: https://ant.apache.org/manual/ifunless.html-->
+        <echo message="fake smtp server (UI: http://localhost:1080/) already running ......" level="info" if:set="is.smtp.running"/>
     </target>
     <!-- unless is equivalent to if not -->
     <target name="run.smtp" unless="is.smtp.running" depends="is.smtp.running.target">
@@ -10,7 +12,8 @@
               dir="${basedir}/../frontend/"
               spawn="true"
               osfamily="windows">
-            <arg line="run dev-fake-smtp-win" />
+            <arg line="run dev-fake-smtp-win"/>
         </exec>
+        <echo message="fake smtp server (UI: http://localhost:1080/) started ......" level="info"/>
     </target>
 </project>
